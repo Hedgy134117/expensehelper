@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <section>
+        <form id="row0"></form>
+        <form id="title">
+            <input type="text" required>
+            <select>
+                <option value="graham">Graham</option>
+                <option value="jainee">Jainee</option>
+                <option value="max">Max</option>
+                <option value="payton">Payton</option>
+                <option value="yanna">Yanna</option>
+            </select>
+        </form>
+
+        <table>
+            <tr>
+                <th colspan="2"></th>
+                <th colspan="5">Opt Out</th>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <th>Cost</th>
+                <th class="name">Graham</th>
+                <th class="name">Jainee</th>
+                <th class="name">Max</th>
+                <th class="name">Payton</th>
+                <th class="name">Yanna</th>
+            </tr>
+            <tr class="entry">
+                <td><input type="text" form="row0" required></td>
+                <td>$ <input type="number" step=".01" form="row0"></td>
+                <td><input type="checkbox" form="row0"></td>
+                <td><input type="checkbox" form="row0"></td>
+                <td><input type="checkbox" form="row0"></td>
+                <td><input type="checkbox" form="row0"></td>
+                <td><input type="checkbox" form="row0"></td>
+                <td hidden><input type="submit" form="row0"></td>
+            </tr>
+        </table>
+    </section>
+
+    <section>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Amount Due</th>
+                <th>Paid</th>
+            </tr>
+            <tr>
+                <td>Graham</td>
+                <td class="due"></td>
+                <td><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Jainee</td>
+                <td class="due"></td>
+                <td><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Max</td>
+                <td class="due"></td>
+                <td><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Payton</td>
+                <td class="due"></td>
+                <td><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Yanna</td>
+                <td class="due"></td>
+                <td><input type="checkbox"></td>
+            </tr>
+        </table>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
