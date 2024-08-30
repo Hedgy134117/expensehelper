@@ -1,6 +1,5 @@
-"use strict";
+import { createEntry, createExpense, getAllExpenses, getEntries, getExpense, setEntry, setExpense } from "./api.js";
 
-const row0Form = document.querySelector("#row0");
 let i = 0;
 
 function submitForm(e) {
@@ -21,25 +20,47 @@ function submitForm(e) {
     }
 }
 
-function createNewRow(row) {
+function taxInput(key, input) {
+    if (key == "t") {
+        input.value = (input.value * 1.07).toFixed(2);
+    }
+}
+
+function createNewRow() {
     i++;
-    const newInputRow = row.cloneNode(true);
+    let newInputRow = document.querySelector("#entry").content.cloneNode(true);
+
     const newInputs = [...newInputRow.querySelectorAll("input")];
     for (let input of newInputs) {
         input.setAttribute("form", `row${i}`);
         input.value = "";
     }
-    row.parentElement.appendChild(newInputRow);
+    newInputs[0].parentElement.parentElement.removeAttribute("data-entryid");
+    newInputs[1].addEventListener("keydown", e => taxInput(e.key, e.target));
+    newInputRow.querySelectorAll("input[type='checkbox']").forEach(checkbox => {
+        checkbox.addEventListener("change", updateInformation);
+    })
+    document.querySelector("tbody").appendChild(newInputRow);
 
     const newForm = document.createElement("form");
     newForm.addEventListener("submit", e => submitForm(e));
     newForm.id = `row${i}`;
-    document.querySelector("section").insertBefore(newForm, row0Form);
+    document.querySelector("section").insertAdjacentElement("afterbegin", newForm);
 
-    newInputRow.querySelectorAll("input[type='checkbox']").forEach(checkbox => {
-        console.log(checkbox);
-        checkbox.addEventListener("change", updateInformation);
-    })
+    return document.querySelector("tbody").lastChild.previousSibling;
+}
+
+function loadNewRow(row, id, data) {
+    const newRow = createNewRow(row);
+    console.log(newRow);
+    newRow.setAttribute("data-entryid", id);
+    const inputs = [...newRow.querySelectorAll("input")];
+    inputs[0].value = data["name"];
+    inputs[1].value = data["cost"];
+    for (let i = 2; i <= 6; i++) {
+        inputs[i].checked = data["optout"][i - 2];
+    }
+    return newRow;
 }
 
 function updateInformation() {
@@ -75,15 +96,127 @@ function updateInformation() {
     }
 }
 
-row0Form.addEventListener("submit", e => submitForm(e));
-document.querySelectorAll(".entry input[type='checkbox']").forEach(checkbox => {
-    checkbox.addEventListener("change", updateInformation);
-})
+async function loadExpense(id) {
+    const expense = await getExpense(id);
+    const entries = await getEntries(id);
 
-document.querySelector("#title").addEventListener("submit", e => {
-    e.preventDefault();
-    console.log(e);
-    document.title = e.target[0].value;
-    document.querySelector("input[form='row0']").focus();
-})
+    // Change title
+    document.querySelector("#title-entry").value = expense["name"];
+    document.querySelector("#expense-id").value = id;
+
+    // Clear current expense
+    const oldRows = [...document.querySelectorAll(".entry")];
+    for (let i = 0; i < oldRows.length; i++) {
+        oldRows[i].remove();
+    }
+
+    // Load new entries
+    let lastRowCreated = null;
+    for (const [id, data] of Object.entries(entries)) {
+        if (lastRowCreated != null) {
+            lastRowCreated = loadNewRow(lastRowCreated, id, data);
+        } else {
+            lastRowCreated = loadNewRow(document.querySelector("#entry"), id, data)
+        }
+    }
+
+    // Load payments
+    let payments = [...document.querySelectorAll(".due-paid")];
+    for (let i = 0; i < expense["paid"].length; i++) {
+        payments[i].checked = expense["paid"][i];
+    }
+
+    updateInformation();
+}
+
+async function loadAllExpenses() {
+    const expenses = await getAllExpenses();
+    const expenseList = document.querySelector("#expense-list");
+    for (const [id, data] of Object.entries(expenses)) {
+        const expenseObject = document.createElement("li");
+        expenseObject.innerText = data["name"];
+        expenseObject.setAttribute("data-eid", id);
+        expenseObject.addEventListener("click", () => loadExpense(id));
+        expenseList.insertAdjacentElement("afterbegin", expenseObject);
+    }
+}
+
+async function save() {
+    const titleForm = document.querySelector("#title");
+    const title = titleForm[0].value;
+
+    if (title === "") {
+        alert("Expense needs a title");
+        return;
+    }
+
+    // Create expense if it doesn't exist
+    let expenseId = titleForm[1].value;
+    const payer = titleForm[2].value;
+    let duePaid = [...document.querySelectorAll(".due-paid")]
+    for (let i = 0; i < duePaid.length; i++) {
+        duePaid[i] = duePaid[i].checked;
+    }
+
+    if (expenseId === "") {
+        expenseId = (await createExpense(title, payer, duePaid)).id;
+    } else {
+        await setExpense(expenseId, title, payer, duePaid);
+    }
+
+    // Create/update each entry
+    const entries = [...document.querySelectorAll(".entry")];
+    for (let entry of entries) {
+        const inputs = [...entry.querySelectorAll("input")];
+        const entryName = inputs[0].value;
+
+        if (entryName === "") {
+            continue;
+        }
+
+        const entryCost = parseFloat(inputs[1].value);
+        let optout = [];
+        for (let i = 2; i <= 6; i++) {
+            optout.push(inputs[i].checked);
+        }
+
+        if (entry.hasAttribute("data-entryid")) {
+            await setEntry(entry.getAttribute("data-entryid"), entryName, entryCost, expenseId, optout);
+        } else {
+            await createEntry(entryName, entryCost, expenseId, optout);
+        }
+    }
+}
+
+window.onload = async () => {
+    // const row0Form = document.querySelector("#row0");
+    // row0Form.addEventListener("submit", e => submitForm(e));
+    // document.querySelectorAll(".entry input[type='checkbox']").forEach(checkbox => {
+    //     checkbox.addEventListener("change", updateInformation);
+    // })
+    // document.querySelector("input[type='number']").addEventListener("keydown", e => taxInput(e.key, e.target));
+
+    document.querySelector("#title").addEventListener("submit", e => {
+        e.preventDefault();
+        if (document.querySelector(".entry") == null) {
+            createNewRow(document.querySelector("#entry"));
+        }
+        document.querySelector(".entry input").focus();
+    })
+
+
+    document.querySelector("#save").addEventListener("click", e => {
+        e.preventDefault();
+        save();
+    })
+
+    document.addEventListener("keydown", e => {
+        if (e.ctrlKey && e.key === "s") {
+            e.preventDefault();
+            save();
+        }
+    })
+
+    await loadAllExpenses();
+}
 

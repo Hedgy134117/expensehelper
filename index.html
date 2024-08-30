@@ -4,15 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Expense Helper</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <section>
-        <form id="row0"></form>
+        <ul id="expense-list">
+        </ul>
+    </section>
+
+    <section>
         <form id="title">
-            <input type="text" required>
+            <input type="text" id="title-entry" required>
+            <input type="text" id="expense-id" hidden>
             <select>
                 <option value="graham">Graham</option>
                 <option value="jainee">Jainee</option>
@@ -20,7 +25,9 @@
                 <option value="payton">Payton</option>
                 <option value="yanna">Yanna</option>
             </select>
+            <input type="submit" hidden>
         </form>
+        <button id="save">Save</button>
 
         <table>
             <tr>
@@ -36,18 +43,22 @@
                 <th class="name">Payton</th>
                 <th class="name">Yanna</th>
             </tr>
-            <tr class="entry">
-                <td><input type="text" form="row0" required></td>
-                <td>$ <input type="number" step=".01" form="row0"></td>
-                <td><input type="checkbox" form="row0"></td>
-                <td><input type="checkbox" form="row0"></td>
-                <td><input type="checkbox" form="row0"></td>
-                <td><input type="checkbox" form="row0"></td>
-                <td><input type="checkbox" form="row0"></td>
-                <td hidden><input type="submit" form="row0"></td>
-            </tr>
+            <tbody></tbody>
         </table>
     </section>
+
+    <template id="entry">
+        <tr class="entry">
+            <td><input type="text" form="row0" required></td>
+            <td>$ <input type="number" step=".01" form="row0"></td>
+            <td><input type="checkbox" form="row0"></td>
+            <td><input type="checkbox" form="row0"></td>
+            <td><input type="checkbox" form="row0"></td>
+            <td><input type="checkbox" form="row0"></td>
+            <td><input type="checkbox" form="row0"></td>
+            <td hidden><input type="submit" form="row0"></td>
+        </tr>
+    </template>
 
     <section>
         <table>
@@ -59,32 +70,34 @@
             <tr>
                 <td>Graham</td>
                 <td class="due"></td>
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" class="due-paid"></td>
             </tr>
             <tr>
                 <td>Jainee</td>
                 <td class="due"></td>
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" class="due-paid"></td>
             </tr>
             <tr>
                 <td>Max</td>
                 <td class="due"></td>
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" class="due-paid"></td>
             </tr>
             <tr>
                 <td>Payton</td>
                 <td class="due"></td>
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" class="due-paid"></td>
             </tr>
             <tr>
                 <td>Yanna</td>
                 <td class="due"></td>
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" class="due-paid"></td>
             </tr>
         </table>
     </section>
 
-    <script src="script.js"></script>
+    <script type="module" src="./firestore.js"></script>
+    <script type="module" src="./api.js"></script>
+    <script type="module" src="./script.js"></script>
 </body>
 
 </html>
