@@ -132,16 +132,25 @@ async function loadExpense(id) {
 async function loadAllExpenses() {
     const expenses = await getAllExpenses();
     const expenseList = document.querySelector("#expense-list");
+    expenseList.innerHTML = "";
     for (const [id, data] of Object.entries(expenses)) {
         const expenseObject = document.createElement("li");
         expenseObject.innerText = data["name"];
         expenseObject.setAttribute("data-eid", id);
-        expenseObject.addEventListener("click", () => loadExpense(id));
+        expenseObject.addEventListener("click", e => {
+            document.querySelectorAll("#expense-list li").forEach(expense => {
+                expense.classList.remove("expense-selected");
+            })
+
+            e.target.classList.add("expense-selected");
+            loadExpense(id)
+        });
         expenseList.insertAdjacentElement("afterbegin", expenseObject);
     }
 }
 
 async function save() {
+    toggleSaveDisplay();
     const titleForm = document.querySelector("#title");
     const title = titleForm[0].value;
 
@@ -186,6 +195,13 @@ async function save() {
             await createEntry(entryName, entryCost, expenseId, optout);
         }
     }
+    await loadAllExpenses();
+    toggleSaveDisplay();
+}
+
+function toggleSaveDisplay() {
+    const overlay = document.querySelector("#saving-overlay");
+    overlay.toggleAttribute("hidden");
 }
 
 window.onload = async () => {
