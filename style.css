@@ -81,6 +81,20 @@ input[type="checkbox"] {
 #expense-list li {
     padding: 0.5em;
     border-radius: 0.5em;
+    display: flex;
+}
+
+#expense-list li span:first-child {
+    font-weight: bold;
+    flex-grow: 1;
+}
+
+#expense-list li span.expense-paid {
+    color: #606C38;
+}
+
+#expense-list li span.expense-unpaid {
+    color: #BC6C25;
 }
 
 #expense-list li:hover {

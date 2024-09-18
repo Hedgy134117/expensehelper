@@ -137,7 +137,8 @@ async function loadAllExpenses() {
     expenseList.innerHTML = "";
     for (const [id, data] of Object.entries(expenses)) {
         const expenseObject = document.createElement("li");
-        expenseObject.innerText = data["name"];
+        const isPaid = data["paid"].every(e => e == true);
+        expenseObject.innerHTML = `<span>${data["name"]}</span><span ${isPaid ? "class='expense-paid'" : "class='expense-unpaid'"}>${isPaid ? "PAID" : "UNPAID"}</span>`;
         expenseObject.setAttribute("data-eid", id);
         expenseObject.addEventListener("click", e => {
             document.querySelectorAll("#expense-list li").forEach(expense => {
