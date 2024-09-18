@@ -145,7 +145,11 @@ async function loadAllExpenses() {
                 expense.classList.remove("expense-selected");
             })
 
-            e.target.classList.add("expense-selected");
+            let li = e.target;
+            while (li.nodeName != "LI") {
+                li = li.parentElement;
+            }
+            li.classList.add("expense-selected");
             loadExpense(id)
         });
         expenseList.insertAdjacentElement("afterbegin", expenseObject);
