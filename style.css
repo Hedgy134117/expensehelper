@@ -56,6 +56,7 @@ section {
     border-radius: 1em;
     background-color: #fefae0;
     height: 100%;
+    overflow: auto;
 }
 
 section:not(:last-of-type) {
@@ -74,14 +75,23 @@ input[type="checkbox"] {
 
 #expense-list {
     margin: 0;
-    list-style-type: none;
     padding: 0;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 #expense-list li {
     padding: 0.5em;
     border-radius: 0.5em;
     display: flex;
+}
+
+#expense-list li:last-of-type {
+    margin-top: auto;
+    border: 1px solid #BC6C25;
+    color: #BC6C25;
 }
 
 #expense-list li span:first-child {
@@ -121,10 +131,6 @@ input[type="checkbox"] {
     input[type="number"] {
         padding: 0.5em;
         width: 10em;
-    }
-
-    section {
-        overflow: auto;
     }
 
     section:not(:last-of-type) {

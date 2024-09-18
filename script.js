@@ -98,6 +98,24 @@ function updateInformation() {
     document.querySelector("#expense-total").innerText = `$${dues.reduce((a, b) => a + b, 0).toFixed(2)}`;
 }
 
+function newExpense() {
+    document.querySelectorAll("#expense-list li").forEach(expense => {
+        expense.classList.remove("expense-selected");
+    })
+
+    // Change title
+    document.querySelector("#title-entry").value = "";
+    document.querySelector("#expense-id").value = "";
+
+    // Clear current expense
+    const oldRows = [...document.querySelectorAll(".entry")];
+    for (let i = 0; i < oldRows.length; i++) {
+        oldRows[i].remove();
+    }
+
+    updateInformation();
+}
+
 async function loadExpense(id) {
     const expense = await getExpense(id);
     const entries = await getEntries(id);
@@ -134,7 +152,10 @@ async function loadExpense(id) {
 async function loadAllExpenses() {
     const expenses = await getAllExpenses();
     const expenseList = document.querySelector("#expense-list");
-    expenseList.innerHTML = "";
+    expenseList.innerHTML = "<li>+ New Expense</li>";
+
+    expenseList.querySelector("li").addEventListener("click", () => newExpense());
+
     for (const [id, data] of Object.entries(expenses)) {
         const expenseObject = document.createElement("li");
         const isPaid = data["paid"].every(e => e == true);
