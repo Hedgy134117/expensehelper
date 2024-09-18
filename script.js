@@ -94,6 +94,8 @@ function updateInformation() {
     for (let i = 0; i < 5; i++) {
         dueElements[i].innerText = `$${dues[i].toFixed(2)}`;
     }
+
+    document.querySelector("#expense-total").innerText = `$${dues.reduce((a, b) => a + b, 0).toFixed(2)}`;
 }
 
 async function loadExpense(id) {
@@ -205,13 +207,6 @@ function toggleSaveDisplay() {
 }
 
 window.onload = async () => {
-    // const row0Form = document.querySelector("#row0");
-    // row0Form.addEventListener("submit", e => submitForm(e));
-    // document.querySelectorAll(".entry input[type='checkbox']").forEach(checkbox => {
-    //     checkbox.addEventListener("change", updateInformation);
-    // })
-    // document.querySelector("input[type='number']").addEventListener("keydown", e => taxInput(e.key, e.target));
-
     document.querySelector("#title").addEventListener("submit", e => {
         e.preventDefault();
         if (document.querySelector(".entry") == null) {

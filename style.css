@@ -62,6 +62,12 @@ section:not(:last-of-type) {
     margin-right: 1em;
 }
 
+input[type="text"],
+input[type="number"] {
+    padding: 0.5em;
+    width: 100%;
+}
+
 input[type="checkbox"] {
     accent-color: #606c38;
 }
@@ -91,6 +97,12 @@ input[type="checkbox"] {
         display: grid;
         grid-template-rows: 1fr 2fr 1fr;
         gap: 1em;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+        padding: 0.5em;
+        width: 10em;
     }
 
     section {
