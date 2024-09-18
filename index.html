@@ -11,91 +11,93 @@
 
 <body>
     <h1 id="saving-overlay" hidden>Saving...</h1>
-    <section>
-        <ul id="expense-list">
-        </ul>
-    </section>
+    <main>
+        <section>
+            <ul id="expense-list">
+            </ul>
+        </section>
 
-    <section>
-        <form id="title">
-            <input type="text" id="title-entry" required>
-            <input type="text" id="expense-id" hidden>
-            <select>
-                <option value="graham">Graham</option>
-                <option value="jainee">Jainee</option>
-                <option value="max">Max</option>
-                <option value="payton">Payton</option>
-                <option value="yanna">Yanna</option>
-            </select>
-            <input type="submit" hidden>
-        </form>
-        <button id="save">Save</button>
+        <section>
+            <form id="title">
+                <input type="text" id="title-entry" required>
+                <input type="text" id="expense-id" hidden>
+                <select>
+                    <option value="graham">Graham</option>
+                    <option value="jainee">Jainee</option>
+                    <option value="max">Max</option>
+                    <option value="payton">Payton</option>
+                    <option value="yanna">Yanna</option>
+                </select>
+                <input type="submit" hidden>
+            </form>
+            <button id="save">Save</button>
 
-        <table>
-            <tr>
-                <th colspan="2"></th>
-                <th colspan="5">Opt Out</th>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <th>Cost</th>
-                <th class="name">Graham</th>
-                <th class="name">Jainee</th>
-                <th class="name">Max</th>
-                <th class="name">Payton</th>
-                <th class="name">Yanna</th>
-            </tr>
-            <tbody></tbody>
-        </table>
-    </section>
+            <table>
+                <tr>
+                    <th colspan="2"></th>
+                    <th colspan="5">Opt Out</th>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Cost</th>
+                    <th class="name">Graham</th>
+                    <th class="name">Jainee</th>
+                    <th class="name">Max</th>
+                    <th class="name">Payton</th>
+                    <th class="name">Yanna</th>
+                </tr>
+                <tbody></tbody>
+            </table>
+        </section>
 
-    <template id="entry">
-        <tr class="entry">
-            <td><input type="text" form="row0" required></td>
-            <td>$ <input type="number" step=".01" form="row0"></td>
-            <td><input type="checkbox" form="row0"></td>
-            <td><input type="checkbox" form="row0"></td>
-            <td><input type="checkbox" form="row0"></td>
-            <td><input type="checkbox" form="row0"></td>
-            <td><input type="checkbox" form="row0"></td>
-            <td hidden><input type="submit" form="row0"></td>
-        </tr>
-    </template>
+        <template id="entry">
+            <tr class="entry">
+                <td><input type="text" form="row0" required></td>
+                <td>$ <input type="number" step=".01" form="row0"></td>
+                <td><input type="checkbox" form="row0"></td>
+                <td><input type="checkbox" form="row0"></td>
+                <td><input type="checkbox" form="row0"></td>
+                <td><input type="checkbox" form="row0"></td>
+                <td><input type="checkbox" form="row0"></td>
+                <td hidden><input type="submit" form="row0"></td>
+            </tr>
+        </template>
 
-    <section>
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Amount Due</th>
-                <th>Paid</th>
-            </tr>
-            <tr>
-                <td>Graham</td>
-                <td class="due"></td>
-                <td><input type="checkbox" class="due-paid"></td>
-            </tr>
-            <tr>
-                <td>Jainee</td>
-                <td class="due"></td>
-                <td><input type="checkbox" class="due-paid"></td>
-            </tr>
-            <tr>
-                <td>Max</td>
-                <td class="due"></td>
-                <td><input type="checkbox" class="due-paid"></td>
-            </tr>
-            <tr>
-                <td>Payton</td>
-                <td class="due"></td>
-                <td><input type="checkbox" class="due-paid"></td>
-            </tr>
-            <tr>
-                <td>Yanna</td>
-                <td class="due"></td>
-                <td><input type="checkbox" class="due-paid"></td>
-            </tr>
-        </table>
-    </section>
+        <section>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Amount Due</th>
+                    <th>Paid</th>
+                </tr>
+                <tr>
+                    <td>Graham</td>
+                    <td class="due"></td>
+                    <td><input type="checkbox" class="due-paid"></td>
+                </tr>
+                <tr>
+                    <td>Jainee</td>
+                    <td class="due"></td>
+                    <td><input type="checkbox" class="due-paid"></td>
+                </tr>
+                <tr>
+                    <td>Max</td>
+                    <td class="due"></td>
+                    <td><input type="checkbox" class="due-paid"></td>
+                </tr>
+                <tr>
+                    <td>Payton</td>
+                    <td class="due"></td>
+                    <td><input type="checkbox" class="due-paid"></td>
+                </tr>
+                <tr>
+                    <td>Yanna</td>
+                    <td class="due"></td>
+                    <td><input type="checkbox" class="due-paid"></td>
+                </tr>
+            </table>
+        </section>
+    </main>
 
     <script type="module" src="./firestore.js"></script>
     <script type="module" src="./api.js"></script>

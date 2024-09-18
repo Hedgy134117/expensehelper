@@ -29,7 +29,8 @@ th {
 
 /* https://coolors.co/palette/606c38-283618-fefae0-dda15e-bc6c25 */
 
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
@@ -40,10 +41,14 @@ html, body {
 }
 
 body {
-    display: flex;
     background-color: #283618;
     height: 100vh;
     padding: 1em;
+}
+
+main {
+    display: flex;
+    height: 100%;
 }
 
 section {
@@ -79,4 +84,21 @@ input[type="checkbox"] {
 #expense-list li.expense-selected {
     background-color: #606c38;
     color: white;
+}
+
+@media only screen and (max-width: 1200px) {
+    main {
+        display: grid;
+        grid-template-rows: 1fr 2fr 1fr;
+        gap: 1em;
+    }
+
+    section {
+        overflow: auto;
+    }
+
+    section:not(:last-of-type) {
+        margin-right: 0;
+        margin-bottom: 1em;
+    }
 }
