@@ -223,7 +223,9 @@ async function save() {
             await createEntry(entryName, entryCost, expenseId, optout);
         }
     }
+
     await loadAllExpenses();
+    await loadExpense(expenseId);
     toggleSaveDisplay();
 }
 
