@@ -52,7 +52,6 @@ function createNewRow() {
 
 function loadNewRow(row, id, data) {
     const newRow = createNewRow(row);
-    console.log(newRow);
     newRow.setAttribute("data-entryid", id);
     const inputs = [...newRow.querySelectorAll("input")];
     inputs[0].value = data["name"];
@@ -151,15 +150,15 @@ async function loadExpense(id) {
 
 async function loadAllExpenses() {
     const expenses = await getAllExpenses();
-    const expenseList = document.querySelector("#expense-list");
-    expenseList.innerHTML = "<li>+ New Expense</li>";
-
-    expenseList.querySelector("li").addEventListener("click", () => newExpense());
+    const unpaidList = document.querySelector("#unpaid-list");
+    const paidList = document.querySelector("#paid-list");
+    unpaidList.innerHTML = ``;
+    paidList.innerHTML = ``;
 
     for (const [id, data] of Object.entries(expenses)) {
         const expenseObject = document.createElement("li");
-        const isPaid = data["paid"].every(e => e == true);
-        expenseObject.innerHTML = `<span>${data["name"]}</span><span ${isPaid ? "class='expense-paid'" : "class='expense-unpaid'"}>${isPaid ? "PAID" : "UNPAID"}</span>`;
+        expenseObject.classList.add("expense");
+        expenseObject.innerHTML = `<span>${data["name"]}</span>`;
         expenseObject.setAttribute("data-eid", id);
         expenseObject.addEventListener("click", e => {
             document.querySelectorAll("#expense-list li").forEach(expense => {
@@ -173,7 +172,11 @@ async function loadAllExpenses() {
             li.classList.add("expense-selected");
             loadExpense(id)
         });
-        expenseList.insertAdjacentElement("afterbegin", expenseObject);
+        if (data["isPaid"]) {
+            paidList.insertAdjacentElement("afterbegin", expenseObject);
+        } else {
+            unpaidList.insertAdjacentElement("afterbegin", expenseObject);
+        }
     }
 }
 

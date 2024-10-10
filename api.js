@@ -1,11 +1,12 @@
 import { db } from "./firestore.js";
-import { collection, query, where, getDocs, doc, getDoc, addDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+import { collection, query, where, getDocs, doc, getDoc, addDoc, setDoc, orderBy } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
 export async function getAllExpenses() {
-    const snap = await getDocs(collection(db, "expenses"));
+    const snap = await getDocs(query(collection(db, "expenses"), orderBy("name", "asc")));
     let expenses = {};
     snap.forEach((doc) => {
         expenses[doc.id] = doc.data();
+        expenses[doc.id]["isPaid"] = expenses[doc.id]["paid"].every(e => e == true);
     })
     return expenses;
 }
